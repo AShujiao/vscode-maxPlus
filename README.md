@@ -9,8 +9,8 @@
 
 示例:
 
-![效果](https://github.com/AShujiao/vscode-maxPlus/blob/master/resources/maxPlus.gif?raw=true)
-![效果](https://github.com/AShujiao/vscode-maxPlus/blob/master/resources/maxPlus.png?raw=true)
+![效果](https://user-images.githubusercontent.com/14969576/45606298-9a27b180-ba76-11e8-9fb1-15afcc69828a.gif)
+![效果](https://user-images.githubusercontent.com/14969576/45606300-9a27b180-ba76-11e8-8cd5-2e10a9013317.png)
 
 ## 要求
 

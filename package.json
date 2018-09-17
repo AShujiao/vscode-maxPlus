@@ -3,10 +3,11 @@
     "displayName": "max+",
     "description": "max+ 游戏资讯",
     "version": "0.0.1",
-    "publisher": "y",
+    "publisher": "manasxx",
     "engines": {
         "vscode": "^1.27.0"
     },
+    "icon": "media/maxPlus.png",
     "categories": [
         "Other"
     ],
@@ -68,6 +69,6 @@
         "typescript": "^2.6.1",
         "vscode": "^1.1.6",
         "@types/node": "^7.0.43",
-        "@types/mocha": "^2.2.42"
+        "@types/mocha": "^2.2.42" 
     }
 }
