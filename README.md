@@ -5,12 +5,12 @@
 ## 特征
 
 当前版本暂时无需任何配置，安装后直接可以从侧边栏中打开使用，前提时你需要连接网络才能获取资讯数据.
+由于vscode的限制，资讯中的视频无法播放.
 
-For example if there is an image subfolder under your extension project workspace:
+示例:
 
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+![效果](https://github.com/AShujiao/vscode-maxPlus/blob/master/resources/maxPlus.gif?raw=true)
+![效果](https://github.com/AShujiao/vscode-maxPlus/blob/master/resources/maxPlus.png?raw=true)
 
 ## 要求
 
@@ -23,23 +23,14 @@ For example if there is an image subfolder under your extension project workspac
 
 ## 发行说明
 
-### 1.0.0
-
-第一次提交 ...
+#### ver 0.0.1 (2018/09/17)
+第一版发布
 
 -----------------------------------------------------------------------------------------------------------
 
-## Working with Markdown
 
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+### 相关信息
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+* [GitHub](https://github.com/AShujiao/vscode-maxPlus)
 
 **Enjoy!**
