@@ -1,0 +1,73 @@
+{
+    "name": "max",
+    "displayName": "max+",
+    "description": "max+ 游戏资讯",
+    "version": "0.0.1",
+    "publisher": "y",
+    "engines": {
+        "vscode": "^1.27.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onView:maxPlus"
+    ],
+    "main": "./out/extension",
+    "contributes": {
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "maxPlus-explorer",
+                    "title": "max+",
+                    "icon": "media/M.svg"
+                }
+            ]
+        },
+        "views": {
+            "maxPlus-explorer": [
+                {
+                    "id": "maxPlus",
+                    "name": ""
+                }
+            ]
+        },
+        "commands": [
+            {
+                "command": "maxPlus.refreshEntry",
+                "title": "Refresh",
+                "icon": {
+                    "light": "resources/light/refresh.svg",
+                    "dark": "resources/dark/refresh.svg"
+                }
+            },
+            {
+                "command": "maxPlus.detail",
+                "title": "maxPlus News Detail",
+                "category": "max News"
+            }
+        ],
+        "menus": {
+            "view/title": [
+                {
+                    "command": "maxPlus.refreshEntry",
+                    "when": "view == maxPlus",
+                    "group": "navigation"
+                }
+            ]
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^2.6.1",
+        "vscode": "^1.1.6",
+        "@types/node": "^7.0.43",
+        "@types/mocha": "^2.2.42"
+    }
+}
