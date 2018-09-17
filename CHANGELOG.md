@@ -1,7 +1,3 @@
-# Change Log
-All notable changes to the "max-" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
-- Initial release
+#### ver0.0.1 (2018/09/17)
+    第一版发布
