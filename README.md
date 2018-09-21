@@ -18,8 +18,8 @@
 
 ## 扩展设置
 
-1.开启或者关闭 `maxPlus.DefaultGame` 配置资讯详情页面是否展示评论内容，默认为 `false` 不展示
-1.首次打开时加载的游戏资讯类型 `maxPlus.DefaultGame` ，默认为 `ow` 
+	1.开启或者关闭 `maxPlus.DefaultGame` 配置资讯详情页面是否展示评论内容，默认为 `false` 不展示
+	2.首次打开时加载的游戏资讯类型 `maxPlus.DefaultGame` ，默认为 `ow` 
 
 
 ## 发行说明
