@@ -19,8 +19,8 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand('maxPlus.switch-hs',() => maxPlusProvider.refresh("hs"));
     vscode.commands.registerCommand('maxPlus.switch', node => vscode.window.showInformationMessage('Successfully called add entry'));
 
-    vscode.commands.registerCommand('maxPlus.detail',(url)=>{
-        maxDetailPanel.createOrShow(url);
+    vscode.commands.registerCommand('maxPlus.detail',(url,iconName)=>{
+        maxDetailPanel.createOrShow(url,iconName);
     })
 }
 

@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-
+import * as path from 'path';
 export class maxDetailPanel{
 
 	public static currentPanel: maxDetailPanel | undefined;
@@ -7,16 +7,17 @@ export class maxDetailPanel{
 	public static readonly viewType = 'maxDetail';
 
 	private readonly _panel: vscode.WebviewPanel;
-	private  _url: string;
-	private _disposables: vscode.Disposable[] = [];
+    private  _url: string;
+    private _iconName:string;
+    private _disposables: vscode.Disposable[] = [];
 
-	public static createOrShow(url: string){
+	public static createOrShow(url: string,iconName:string){
 		const column = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined;
 
 
 		if(maxDetailPanel.currentPanel){
 			maxDetailPanel.currentPanel._panel.reveal(column);
-			maxDetailPanel.currentPanel._update(url);
+			maxDetailPanel.currentPanel._update(url,iconName);
 			return;
 		}
 
@@ -24,13 +25,14 @@ export class maxDetailPanel{
 			enableScripts: true
 		});
 
-		maxDetailPanel.currentPanel = new maxDetailPanel(panel,url);
+		maxDetailPanel.currentPanel = new maxDetailPanel(panel,url,iconName);
 	}
 
 
-	private constructor(panel: vscode.WebviewPanel,url:string){
+	private constructor(panel: vscode.WebviewPanel,url:string,iconName:string){
 		this._panel = panel;
-		this._url = url;
+        this._url = url;
+        this._iconName = iconName;
 		// Set the webview's initial html content 
         this._update();
 
@@ -69,10 +71,16 @@ export class maxDetailPanel{
         }
 	}
 
-	private _update(url:string = '') {
+	private _update(url?:string,iconName?:string) {
 
-		if(url!='') this._url = url;
-		this._panel.title = "Max+ 资讯";
+        if(url) this._url = url;
+        if(iconName) this._iconName = iconName;
+        this._panel.title = "Max+ 资讯";
+
+        this._panel.iconPath = {
+            light:vscode.Uri.file(path.join(__filename,  '..', '..', 'resources', 'light', this._iconName + '.svg')) ,
+            dark: vscode.Uri.file(path.join(__filename,  '..', '..', 'resources', 'dark', this._iconName + '.svg'))
+        };
         this._panel.webview.html = this._getHtmlForWebview();
 	}
 	
@@ -85,17 +93,13 @@ export class maxDetailPanel{
             <head>
                 <meta charset="UTF-8">
 
-                <!--
-                Use a content security policy to only allow loading images from https or from our extension directory,
-                and only allow scripts that have a specific nonce.
-                -->
                 <meta content="default-src 'none'; img-src vscode-resource: https:; script-src 'nonce-';">
 
                 <meta name="viewport" >
-                <title>Cat Coding</title>
+                <title>Max</title>
             </head>
             <body>
-                <iframe id="myiframe" style="width:480px;height:800px;" src="${this._url}" ></iframe>
+                <iframe style="width:480px;height:800px;" src="${this._url}" ></iframe>
             </body>
             </html>`;
     }

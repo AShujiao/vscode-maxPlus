@@ -6,6 +6,7 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 	private _onDidChangeTreeData: vscode.EventEmitter<Dependency | undefined> = new vscode.EventEmitter<Dependency | undefined>();
 	readonly onDidChangeTreeData: vscode.Event<Dependency | undefined> = this._onDidChangeTreeData.event;
 	private _gameType:string = vscode.workspace.getConfiguration("maxPlus").DefaultGame;
+	private _iconName:string;
 
 	constructor() {
 
@@ -63,12 +64,27 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 		if (maxJson.result.length <= 0) {
 			return [];
 		}
+
+		switch(this._gameType){
+			case "ow":
+			this._iconName = "Overwatch";
+			break;
+			case "dota2":
+			this._iconName = "dota";
+			break;
+			case "csgo":
+			this._iconName="csgo";
+			break;
+			case "hs":
+			this._iconName="Hearthstone";
+			break;
+		}
 		
 		const toDep = (title: string, url: string): Dependency => {
-			return new Dependency(title, vscode.TreeItemCollapsibleState.None, {
+			return new Dependency(title, vscode.TreeItemCollapsibleState.None,this._iconName, {
 				command: "maxPlus.detail",
 				title: '',
-				arguments: [url]
+				arguments: [url,this._iconName]
 			});
 		}
 		
@@ -76,7 +92,6 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 			maxJson.result[dep]['title'], 
 			maxJson.result[dep]['newUrl']
 		));
-
 		return list;
 	}
 
@@ -86,6 +101,7 @@ class Dependency extends vscode.TreeItem {
 	constructor(
 		public readonly label: string,
 		public readonly collapsibleState: vscode.TreeItemCollapsibleState,
+		public iconName:string,
 		public readonly command?: vscode.Command
 	) {
 		super(label, collapsibleState);
@@ -96,8 +112,8 @@ class Dependency extends vscode.TreeItem {
 	}
 
 	iconPath = {
-		light: path.join(__filename, '..', '..', '..', 'resources', 'light', 'dependency.svg'),
-		dark: path.join(__filename, '..', '..', '..', 'resources', 'dark', 'dependency.svg')
+		light: path.join(__filename,  '..', '..', 'resources', 'light', this.iconName + '.svg'),
+		dark: path.join(__filename,  '..', '..', 'resources', 'dark', this.iconName + '.svg')
 	};
 
 	contextValue = 'dependency';

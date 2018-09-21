@@ -9,8 +9,8 @@
 
 示例:
 
-![效果](https://user-images.githubusercontent.com/14969576/45872603-0120cf80-bdc3-11e8-89c0-27cef2b84185.gif)
-![效果](https://user-images.githubusercontent.com/14969576/45874109-a2f5eb80-bdc6-11e8-839e-46dff1f04a80.png)
+![效果](https://user-images.githubusercontent.com/14969576/45882721-959a2a80-bde1-11e8-81c3-af68af1a95af.gif)
+![效果](https://user-images.githubusercontent.com/14969576/45882923-32f55e80-bde2-11e8-930b-0afd8fd60910.png)
 
 ## 要求
 
@@ -29,6 +29,7 @@
 #### ver 1.0.0 (2018/09/21)
 	1：添加两个配置：1、详情中是否显示评论；2、首次加载的游戏类型
 	2：可以在左侧面板中直接切换现在所支持的游戏类型，包含（守望先锋、炉石传说、CSGO、Dota2）
+	3: 添加资讯列表图标以及对应的标签图标
 
 -----------------------------------------------------------------------------------------------------------
 
