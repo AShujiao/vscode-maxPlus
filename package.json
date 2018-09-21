@@ -59,6 +59,16 @@
                     "group": "navigation"
                 }
             ]
+        },
+        "configuration":{
+            "title": "Max + config. max+ 插件配置",
+            "properties": {
+                "maxPlus.NewsComment":{
+                    "type":"boolean",
+                    "default":false,
+                    "description":"News details show comments? / 是否在新闻详情中显示评论内容"
+                }
+            }
         }
     },
     "bugs": {

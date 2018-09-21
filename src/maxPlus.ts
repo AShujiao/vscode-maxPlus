@@ -60,16 +60,19 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 		if (maxJson.result.length <= 0) {
 			return [];
 		}
-
+		
 		const toDep = (title: string, url: string): Dependency => {
 			return new Dependency(title, vscode.TreeItemCollapsibleState.None, {
 				command: "maxPlus.detail",
 				title: '',
-				arguments: [url+"?version=4.2.9"]
+				arguments: [url]
 			});
 		}
-
-		let list = Object.keys(maxJson.result).map(dep => toDep(maxJson.result[dep]['title'], maxJson.result[dep]['newUrl']));
+		
+		let list = Object.keys(maxJson.result).map(dep => toDep(
+			maxJson.result[dep]['title'], 
+			maxJson.result[dep]['newUrl']
+		));
 
 		return list;
 	}
