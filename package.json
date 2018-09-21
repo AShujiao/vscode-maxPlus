@@ -2,7 +2,7 @@
     "name": "max",
     "displayName": "max+",
     "description": "max+ 游戏资讯",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "publisher": "manasxx",
     "engines": {
         "vscode": "^1.27.0"
@@ -38,8 +38,40 @@
         },
         "commands": [
             {
+				"command": "maxPlus.switch-ow",
+                "title": "守望先锋",
+                "icon": {
+                    "light": "resources/light/Overwatch.svg",
+                    "dark": "resources/dark/Overwatch.svg"
+                }
+            },
+            {
+				"command": "maxPlus.switch-dota",
+				"title": "DOTA2",
+                "icon": {
+                    "light": "resources/light/dota.svg",
+                    "dark": "resources/dark/dota.svg"
+                }
+            },
+            {
+				"command": "maxPlus.switch-csgo",
+				"title": "CSGO",
+                "icon": {
+                    "light": "resources/light/csgo.svg",
+                    "dark": "resources/dark/csgo.svg"
+                }
+            },
+            {
+				"command": "maxPlus.switch-hs",
+				"title": "炉石传说",
+                "icon": {
+                    "light": "resources/light/Hearthstone.svg",
+                    "dark": "resources/dark/Hearthstone.svg"
+                }
+			},
+            {
                 "command": "maxPlus.refreshEntry",
-                "title": "Refresh",
+                "title": "刷新",
                 "icon": {
                     "light": "resources/light/refresh.svg",
                     "dark": "resources/dark/refresh.svg"
@@ -56,8 +88,29 @@
                 {
                     "command": "maxPlus.refreshEntry",
                     "when": "view == maxPlus",
-                    "group": "navigation"
-                }
+                    "group": "navigation@4"
+                },
+                {
+					"command": "maxPlus.switch-ow",
+                    "when": "view == maxPlus",
+                    "group": "navigation@0"
+                },
+                {
+					"command": "maxPlus.switch-dota",
+                    "when": "view == maxPlus",
+                    "group": "navigation@1"
+				},
+                {
+					"command": "maxPlus.switch-csgo",
+                    "when": "view == maxPlus",
+                    "group": "navigation@2"
+				},
+                {
+					"command": "maxPlus.switch-hs",
+                    "when": "view == maxPlus",
+                    "group": "navigation@3"
+				}
+                
             ]
         },
         "configuration":{
@@ -67,6 +120,12 @@
                     "type":"boolean",
                     "default":false,
                     "description":"News details show comments? / 是否在新闻详情中显示评论内容"
+                },
+                "maxPlus.DefaultGame":{
+                    "type":"string",
+                    "enum":["ow","csgo","dota2","hs"],
+                    "default":"ow",
+                    "description":"默认加载游戏"
                 }
             }
         }
@@ -79,18 +138,5 @@
         "type": "git",
         "url": "https://github.com/AShujiao/vscode-maxPlus.git"
     },
-    "homepage": "https://github.com/AShujiao/vscode-maxPlus/blob/master/README.md",
-    "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "npm run compile && node ./node_modules/vscode/bin/test"
-    },
-    "devDependencies": {
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.6",
-        "@types/node": "^7.0.43",
-        "@types/mocha": "^2.2.42" 
-    }
+    "homepage": "https://github.com/AShujiao/vscode-maxPlus/blob/master/README.md"
 }

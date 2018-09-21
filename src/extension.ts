@@ -13,6 +13,11 @@ export function activate(context: vscode.ExtensionContext) {
 
     vscode.window.registerTreeDataProvider('maxPlus',maxPlusProvider);
     vscode.commands.registerCommand('maxPlus.refreshEntry',() => maxPlusProvider.refresh());
+    vscode.commands.registerCommand('maxPlus.switch-ow',() => maxPlusProvider.refresh("ow"));
+    vscode.commands.registerCommand('maxPlus.switch-dota',() => maxPlusProvider.refresh("dota2"));
+    vscode.commands.registerCommand('maxPlus.switch-csgo',() => maxPlusProvider.refresh("csgo"));
+    vscode.commands.registerCommand('maxPlus.switch-hs',() => maxPlusProvider.refresh("hs"));
+    vscode.commands.registerCommand('maxPlus.switch', node => vscode.window.showInformationMessage('Successfully called add entry'));
 
     vscode.commands.registerCommand('maxPlus.detail',(url)=>{
         maxDetailPanel.createOrShow(url);

@@ -5,12 +5,16 @@ import * as http from 'http';
 export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 	private _onDidChangeTreeData: vscode.EventEmitter<Dependency | undefined> = new vscode.EventEmitter<Dependency | undefined>();
 	readonly onDidChangeTreeData: vscode.Event<Dependency | undefined> = this._onDidChangeTreeData.event;
+	private _gameType:string = vscode.workspace.getConfiguration("maxPlus").DefaultGame;
 
 	constructor() {
 
 	}
 
-	refresh(): void {
+	refresh(gaemType?:string): void {
+		if(gaemType){
+			this._gameType = gaemType;
+		}
 		this._onDidChangeTreeData.fire();
 	}
 
@@ -29,8 +33,7 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 
 
 	private requestOrderAPI() {
-
-		let url: string = "http://news.maxjia.com/maxnews/app/list/ow?game_type=ow&imei=354702090309389&os_type=Android&os_version=8.0.0&version=4.2.9&lang=zh-cn&actual_game_type=ow";
+		let url: string = "http://news.maxjia.com/maxnews/app/list?game_type="+this._gameType+"&imei=354702090309389&os_type=Android&os_version=8.0.0&version=4.2.9&lang=zh-cn";
 		let re: string = '';
 		return new Promise(function (resolve, reject) {
 			http.get(url, (res) => {
