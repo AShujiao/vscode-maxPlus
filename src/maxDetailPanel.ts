@@ -87,47 +87,22 @@ export class maxDetailPanel{
 	}
 	
 	private _getHtmlForWebview() {
-        const scriptPathOnDisk = vscode.Uri.file(path.join(__filename,  '..', '..', 'resources', 'test.js'));
-        const mp3url = vscode.Uri.file(path.join("https://m10.music.126.net/20181018173634/ba48c08e231a1609c3c8ee25b20d2292/ymusic/e33e/ce89/f6b0/03021c4140edc953808280ac78bd35be.mp3"));
-
-        // And the uri we use to load this script in the webview
-        const scriptUri = scriptPathOnDisk.with({ scheme: 'vscode-resource' });
-        const mpe3url2 = mp3url.with({ scheme: 'vscode-resource' });
-
-        const nonce = this.getNonce();
 
         let config = vscode.workspace.getConfiguration('maxPlus'); // 当前用户配置
         this._url += (config.NewsComment ? '':'?version=4.2.9');
-        let jsPath = vscode.Uri.file(path.join(__filename,  '..', '..', 'resources', 'test.js'));
-        //this._url = "https://www.iesdouyin.com/share/video/6612399950728793348/?region=CN&mid=6612399998971677453&u_code=klfckggj&titleType=title&timestamp=1539575933";
+
         return `<!DOCTYPE html>
             <html lang="en">
             <head>
                 <meta charset="UTF-8">
-                <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src vscode-resource: https:; script-src 'nonce-ab123';frame-src https:; media-src https:;">
-                
-
                 <meta name="viewport" >
                 <title>Max</title>
             </head>
             <body>
-            <audio nonce="abc123" src="https://m10.music.126.net/20181018173634/ba48c08e231a1609c3c8ee25b20d2292/ymusic/e33e/ce89/f6b0/03021c4140edc953808280ac78bd35be.mp3">
-                您的浏览器不支持 audio 标签。
-            </audio>
-                <iframe style="width:480px;height:800px;" src="${this._url}" ></iframe>
-                <script nonce="ab123" src="${scriptUri}"></script>
+            
+                <iframe width="480" height="800" style="width:480px;height:800px;" src="${this._url}" ></iframe>
             </body>
             </html>`;
     }
-
-    private getNonce() {
-        let text = "";
-        const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for (let i = 0; i < 32; i++) {
-            text += possible.charAt(Math.floor(Math.random() * possible.length));
-        }
-        return text;
-    }
-	
 
 }
