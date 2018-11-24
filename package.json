@@ -2,7 +2,7 @@
     "name": "max",
     "displayName": "max+",
     "description": "max+ 游戏资讯",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "publisher": "manasxx",
     "engines": {
         "vscode": "^1.27.0"
@@ -36,7 +36,7 @@
             "maxPlus-explorer": [
                 {
                     "id": "maxPlus",
-                    "name": ""
+                    "name": "max+"
                 }
             ]
         },
@@ -74,6 +74,22 @@
                 }
             },
             {
+                "command": "maxPlus.prePage",
+                "title": "上一页",
+                "icon": {
+                    "light": "resources/light/pre.svg",
+                    "dark": "resources/dark/pre.svg"
+                }
+            },
+            {
+                "command": "maxPlus.nextPage",
+                "title": "下一页",
+                "icon": {
+                    "light": "resources/light/next.svg",
+                    "dark": "resources/dark/next.svg"
+                }
+            },
+            {
                 "command": "maxPlus.refreshEntry",
                 "title": "刷新",
                 "icon": {
@@ -89,11 +105,6 @@
         ],
         "menus": {
             "view/title": [
-                {
-                    "command": "maxPlus.refreshEntry",
-                    "when": "view == maxPlus",
-                    "group": "navigation@4"
-                },
                 {
                     "command": "maxPlus.switch-ow",
                     "when": "view == maxPlus",
@@ -113,6 +124,21 @@
                     "command": "maxPlus.switch-hs",
                     "when": "view == maxPlus",
                     "group": "navigation@3"
+                },
+                {
+                    "command": "maxPlus.refreshEntry",
+                    "when": "view == maxPlus",
+                    "group": "navigation@6"
+                },
+                {
+                    "command": "maxPlus.prePage",
+                    "when": "view == maxPlus",
+                    "group": "navigation@4"
+                },
+                {
+                    "command": "maxPlus.nextPage",
+                    "when": "view == maxPlus",
+                    "group": "navigation@5"
                 }
             ]
         },

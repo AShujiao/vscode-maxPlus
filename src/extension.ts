@@ -17,7 +17,8 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand('maxPlus.switch-dota',() => maxPlusProvider.refresh("dota2"));
     vscode.commands.registerCommand('maxPlus.switch-csgo',() => maxPlusProvider.refresh("csgo"));
     vscode.commands.registerCommand('maxPlus.switch-hs',() => maxPlusProvider.refresh("hs"));
-    vscode.commands.registerCommand('maxPlus.switch', node => vscode.window.showInformationMessage('Successfully called add entry'));
+    vscode.commands.registerCommand('maxPlus.prePage',() => maxPlusProvider.refresh(undefined,"pre"));
+    vscode.commands.registerCommand('maxPlus.nextPage',() => maxPlusProvider.refresh(undefined,"next"));
 
     vscode.commands.registerCommand('maxPlus.detail',(url,iconName)=>{
         maxDetailPanel.createOrShow(url,iconName);
