@@ -98,7 +98,8 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 			break;
 		}
 		//处理数据
-		const toDep = (title: string, url: string): Dependency => {
+		const toDep = (title: string, url: string, linkId: number): Dependency => {
+			url = linkId <= 0 ? url+'?' : 'https://news.maxjia.com/bbs/app/api/web/share?link_id=' + linkId;
 			return new Dependency(title, vscode.TreeItemCollapsibleState.None,this._iconName, {
 				command: "maxPlus.detail",
 				title: '',
@@ -108,7 +109,8 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 		//循环添加数据
 		let list = Object.keys(maxJson.result).map(dep => toDep(
 			maxJson.result[dep]['title'], 
-			maxJson.result[dep]['newUrl']
+			maxJson.result[dep]['newUrl'],
+			maxJson.result[dep]['linkid']
 		));
 		return list;
 	}

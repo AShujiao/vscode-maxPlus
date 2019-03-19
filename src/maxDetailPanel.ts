@@ -113,7 +113,7 @@ export class maxDetailPanel{
      */
     private _getHtmlForWebview() {
         let config = vscode.workspace.getConfiguration('maxPlus'); // 当前用户配置
-        this._url += (config.NewsComment ? '':'?version=4.2.9');
+        this._url += (config.NewsComment ? '':'&version=4.2.9');
 
         return `<!DOCTYPE html>
             <html lang="en">
