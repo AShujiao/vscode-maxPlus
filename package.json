@@ -2,7 +2,7 @@
     "name": "max",
     "displayName": "max+",
     "description": "max+ 游戏资讯",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "publisher": "manasxx",
     "engines": {
         "vscode": "^1.27.0"

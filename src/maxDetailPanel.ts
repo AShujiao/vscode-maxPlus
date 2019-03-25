@@ -53,12 +53,12 @@ export class maxDetailPanel{
         // 监听关闭面板事件
         this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
 
-        // 更新内容事件
-        this._panel.onDidChangeViewState(e => {
-            if (this._panel.visible) {
-                this._update()
-            }
-        }, null, this._disposables);
+        // 更新内容事件，暂时用不到
+        // this._panel.onDidChangeViewState(e => {
+        //     if (this._panel.visible) {
+        //         this._update()
+        //     }
+        // }, null, this._disposables);
 
         // 处理面板中的消息，暂时用不到
         /*this._panel.webview.onDidReceiveMessage(message => {
