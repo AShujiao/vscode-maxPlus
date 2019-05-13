@@ -36,6 +36,7 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 			this._gameType = gaemType;
 			this._page = 0;//切换游戏后默认为第一页数据
 		}
+		
 		//更新列表
 		this._onDidChangeTreeData.fire();
 	}
@@ -57,7 +58,23 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 
 	//请求url json数据
 	private requestOrderAPI() {
-		let url: string = "http://news.maxjia.com/maxnews/app/list?game_type="+this._gameType+"&imei=354702090309389&os_type=Android&os_version=9&version=4.3.2&lang=zh-cn&offset=" +(this._page * this._limit)+"&limit="+this._limit;
+		//根据游戏类型适配小黑盒
+		let blackGameType:string = '';
+		switch(this._gameType){
+			case "ow":
+			blackGameType = 'Blizzard';
+			break;
+			case "dota2":
+			blackGameType = 'dota2';
+			break;
+			case "csgo":
+			blackGameType = 'csgo';
+			break;
+			case "hs":
+			blackGameType = 'hs';
+			break;
+		}
+		let url: string = "http://api.xiaoheihe.cn/maxnews/app/list?tag="+blackGameType+"&imei=354702090309389&os_type=Android&os_version=9&version=1.2.66&offset=" +(this._page * this._limit)+"&limit="+this._limit+"&heybox_id=16580999&hkey=0fb7ab4b8dc0a76221cf820021877726&_time=" + Math.round(new Date().getTime()/1000).toString();
 		return new Promise(function (resolve, reject) {
 			http.get(url, (res) => {
 				res.setEncoding('utf8');
@@ -98,8 +115,7 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 			break;
 		}
 		//处理数据
-		const toDep = (title: string, url: string, linkId: number): Dependency => {
-			url = linkId <= 0 ? url+'?' : 'https://news.maxjia.com/bbs/app/api/web/share?link_id=' + linkId;
+		const toDep = (title: string, url: string, linkId?: number): Dependency => {
 			return new Dependency(title, vscode.TreeItemCollapsibleState.None,this._iconName, {
 				command: "maxPlus.detail",
 				title: '',

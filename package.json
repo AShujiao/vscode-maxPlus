@@ -1,13 +1,14 @@
 {
     "name": "max",
-    "displayName": "max+",
-    "description": "max+ 游戏资讯",
-    "version": "1.2.1",
+    "displayName": "小黑盒 max+",
+    "description": "小黑盒(max+) 游戏资讯",
+    "version": "1.3.0",
     "publisher": "manasxx",
     "engines": {
         "vscode": "^1.27.0"
     },
-    "icon": "media/maxPlus.png",
+    "one_title":true,
+    "icon": "media/maxPlusNew.png",
     "categories": [
         "Other"
     ],
@@ -36,7 +37,7 @@
             "maxPlus-explorer": [
                 {
                     "id": "maxPlus",
-                    "name": "max+"
+                    "name": "小黑盒"
                 }
             ]
         },
@@ -143,7 +144,7 @@
             ]
         },
         "configuration": {
-            "title": "Max + config. max+ 插件配置",
+            "title": "max+ 小黑盒 配置",
             "properties": {
                 "maxPlus.NewsComment": {
                     "type": "boolean",

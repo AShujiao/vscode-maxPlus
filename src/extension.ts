@@ -23,6 +23,14 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand('maxPlus.detail',(url,iconName)=>{
         maxDetailPanel.createOrShow(url,iconName);
     })
+    // 首次打开-提示语
+    let openNum:string           = context.globalState.get('ext_version');
+    let ex:vscode.Extension<any> = vscode.extensions.getExtension('manasxx.max');
+    let version:string           = ex.packageJSON['version'];
+    if(openNum != version && ex.packageJSON['one_title']){
+        context.globalState.update('ext_version',version);
+        vscode.window.showInformationMessage("本次更新：由于众所周知的原因，现已使用小黑盒app接口");
+    }
 }
 
 // this method is called when your extension is deactivated

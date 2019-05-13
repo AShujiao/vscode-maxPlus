@@ -95,7 +95,7 @@ export class maxDetailPanel{
         if(url) this._url = url;
         if(iconName) this._iconName = iconName;
         //设置面板标题
-        this._panel.title = "Max+ 资讯";
+        this._panel.title = "Max+ News";
         // 设置面板图标
         this._panel.iconPath = {
             light:vscode.Uri.file(path.join(__filename,  '..', '..', 'resources', 'light', this._iconName + '.svg')) ,
@@ -113,7 +113,7 @@ export class maxDetailPanel{
      */
     private _getHtmlForWebview() {
         let config = vscode.workspace.getConfiguration('maxPlus'); // 当前用户配置
-        this._url += (config.NewsComment ? '':'&version=4.2.9');
+        this._url += (config.NewsComment ? '':'&version=1.2.66');
 
         return `<!DOCTYPE html>
             <html lang="en">
