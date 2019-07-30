@@ -215,6 +215,6 @@
         "@types/mocha": "^2.2.42",
         "@types/node": "^7.10.2",
         "typescript": "^2.6.1",
-        "vscode": "^1.1.26"
+        "vscode": "^1.1.35"
     }
 }
