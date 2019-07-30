@@ -73,6 +73,12 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 			case "hs":
 			blackGameType = 'hs';
 			break;
+			case "lol":
+			blackGameType = 'lol';
+			break;
+			case "pubg":
+			blackGameType = 'PUBG';
+			break;
 		}
 		let url: string = "http://api.xiaoheihe.cn/maxnews/app/list?tag="+blackGameType+"&imei=354702090309389&os_type=Android&os_version=9&version=1.2.66&offset=" +(this._page * this._limit)+"&limit="+this._limit+"&heybox_id=16580999&hkey=0fb7ab4b8dc0a76221cf820021877726&_time=" + Math.round(new Date().getTime()/1000).toString();
 		return new Promise(function (resolve, reject) {
@@ -112,6 +118,12 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 			break;
 			case "hs":
 			this._iconName="Hearthstone";
+			break;
+			case "lol":
+			this._iconName="lol";
+			break;
+			case "pubg":
+			this._iconName="pubg";
 			break;
 		}
 		//处理数据

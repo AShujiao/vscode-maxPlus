@@ -17,6 +17,8 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand('maxPlus.switch-dota',() => maxPlusProvider.refresh("dota2"));
     vscode.commands.registerCommand('maxPlus.switch-csgo',() => maxPlusProvider.refresh("csgo"));
     vscode.commands.registerCommand('maxPlus.switch-hs',() => maxPlusProvider.refresh("hs"));
+    vscode.commands.registerCommand('maxPlus.switch-lol',() => maxPlusProvider.refresh("lol"));
+    vscode.commands.registerCommand('maxPlus.switch-pubg',() => maxPlusProvider.refresh("pubg"));
     vscode.commands.registerCommand('maxPlus.prePage',() => maxPlusProvider.refresh(undefined,"pre"));
     vscode.commands.registerCommand('maxPlus.nextPage',() => maxPlusProvider.refresh(undefined,"next"));
 
@@ -29,7 +31,7 @@ export function activate(context: vscode.ExtensionContext) {
     let version:string           = ex.packageJSON['version'];
     if(openNum != version && ex.packageJSON['one_title']){
         context.globalState.update('ext_version',version);
-        vscode.window.showInformationMessage("本次更新：由于众所周知的原因，现已使用小黑盒app接口");
+        vscode.window.showInformationMessage("本次更新：添加支持英雄联盟、绝地求生游戏资讯");
     }
 }
 

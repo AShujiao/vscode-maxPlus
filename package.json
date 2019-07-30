@@ -1,13 +1,13 @@
 {
     "name": "max",
-    "displayName": "小黑盒 max+",
+    "displayName": "小黑盒",
     "description": "小黑盒(max+) 游戏资讯",
-    "version": "1.3.0",
+    "version": "1.4.0",
     "publisher": "manasxx",
     "engines": {
         "vscode": "^1.27.0"
     },
-    "one_title":true,
+    "one_title": true,
     "icon": "media/maxPlusNew.png",
     "categories": [
         "Other"
@@ -17,7 +17,10 @@
         "csgo",
         "game",
         "news",
-        "dota"
+        "dota",
+        "lol",
+        "pubg",
+        "max+"
     ],
     "activationEvents": [
         "onView:maxPlus"
@@ -28,8 +31,8 @@
             "activitybar": [
                 {
                     "id": "maxPlus-explorer",
-                    "title": "max+",
-                    "icon": "media/M.svg"
+                    "title": "小黑盒",
+                    "icon": "media/xhh.svg"
                 }
             ]
         },
@@ -72,6 +75,22 @@
                 "icon": {
                     "light": "resources/light/Hearthstone.svg",
                     "dark": "resources/dark/Hearthstone.svg"
+                }
+            },
+            {
+                "command": "maxPlus.switch-lol",
+                "title": "英雄联盟",
+                "icon": {
+                    "light": "resources/light/lol.svg",
+                    "dark": "resources/dark/lol.svg"
+                }
+            },
+            {
+                "command": "maxPlus.switch-pubg",
+                "title": "绝地求生",
+                "icon": {
+                    "light": "resources/light/pubg.svg",
+                    "dark": "resources/dark/pubg.svg"
                 }
             },
             {
@@ -127,19 +146,29 @@
                     "group": "navigation@3"
                 },
                 {
-                    "command": "maxPlus.refreshEntry",
-                    "when": "view == maxPlus",
-                    "group": "navigation@6"
-                },
-                {
-                    "command": "maxPlus.prePage",
+                    "command": "maxPlus.switch-lol",
                     "when": "view == maxPlus",
                     "group": "navigation@4"
                 },
                 {
-                    "command": "maxPlus.nextPage",
+                    "command": "maxPlus.switch-pubg",
                     "when": "view == maxPlus",
                     "group": "navigation@5"
+                },
+                {
+                    "command": "maxPlus.refreshEntry",
+                    "when": "view == maxPlus",
+                    "group": "navigation@8"
+                },
+                {
+                    "command": "maxPlus.prePage",
+                    "when": "view == maxPlus",
+                    "group": "navigation@6"
+                },
+                {
+                    "command": "maxPlus.nextPage",
+                    "when": "view == maxPlus",
+                    "group": "navigation@7"
                 }
             ]
         },
@@ -157,7 +186,9 @@
                         "ow",
                         "csgo",
                         "dota2",
-                        "hs"
+                        "hs",
+                        "lol",
+                        "pubg"
                     ],
                     "default": "ow",
                     "description": "默认加载游戏"
