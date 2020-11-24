@@ -137,7 +137,7 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 		//循环添加数据
 		let list = Object.keys(maxJson.result).map(dep => toDep(
 			maxJson.result[dep]['title'], 
-			maxJson.result[dep]['newUrl'],
+			maxJson.result[dep]['share_url'],
 			maxJson.result[dep]['linkid']
 		));
 		return list;

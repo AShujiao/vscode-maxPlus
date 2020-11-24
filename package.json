@@ -2,7 +2,7 @@
     "name": "max",
     "displayName": "小黑盒",
     "description": "小黑盒(max+) 游戏资讯",
-    "version": "1.4.0",
+    "version": "1.4.1",
     "publisher": "manasxx",
     "engines": {
         "vscode": "^1.27.0"

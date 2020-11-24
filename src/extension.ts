@@ -31,7 +31,7 @@ export function activate(context: vscode.ExtensionContext) {
     let version:string           = ex.packageJSON['version'];
     if(openNum != version && ex.packageJSON['one_title']){
         context.globalState.update('ext_version',version);
-        vscode.window.showInformationMessage("本次更新：添加支持英雄联盟、绝地求生游戏资讯");
+        vscode.window.showInformationMessage("本次更新：使用分享页详情链接（原链接需要登陆信息暂不支持）顺便求个Star");
     }
 }
 
