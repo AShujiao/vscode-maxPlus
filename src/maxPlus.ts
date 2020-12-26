@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import * as http from 'http';
+import * as https from 'https';
 
 export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 	//默认事件
@@ -80,9 +80,19 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 			blackGameType = 'PUBG';
 			break;
 		}
-		let url: string = "http://api.xiaoheihe.cn/maxnews/app/list?tag="+blackGameType+"&imei=354702090309389&os_type=Android&os_version=9&version=1.2.66&offset=" +(this._page * this._limit)+"&limit="+this._limit+"&heybox_id=16580999&hkey=0fb7ab4b8dc0a76221cf820021877726&_time=" + Math.round(new Date().getTime()/1000).toString();
+		//let url: string = "https://api.xiaoheihe.cn/maxnews/app/list?tag="+blackGameType+"&imei=354702090309389&os_type=Android&os_version=9&version=1.2.66&offset=" +(this._page * this._limit)+"&limit="+this._limit+"&heybox_id=16580999&hkey=0fb7ab4b8dc0a76221cf820021877726&_time=" + Math.round(new Date().getTime()/1000).toString();
+		let path: string = "/maxnews/app/list?tag="+blackGameType+"&imei=354702090309389&os_type=Android&os_version=9&version=1.2.66&offset=" +(this._page * this._limit)+"&limit="+this._limit+"&heybox_id=16580999&hkey=0fb7ab4b8dc0a76221cf820021877726&_time=" + Math.round(new Date().getTime()/1000).toString();
+		let option = {
+			host: "api.xiaoheihe.cn",
+			method: 'GET',
+			path: path,
+			headers: {
+				'Content-Type': 'application/json',
+				'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'
+			}
+		}
 		return new Promise(function (resolve, reject) {
-			http.get(url, (res) => {
+			https.get(option, (res) => {
 				res.setEncoding('utf8');
 				let rawData = '';
 				res.on('data', function (chunk) {

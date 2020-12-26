@@ -31,7 +31,7 @@ export function activate(context: vscode.ExtensionContext) {
     let version:string           = ex.packageJSON['version'];
     if(openNum != version && ex.packageJSON['one_title']){
         context.globalState.update('ext_version',version);
-        vscode.window.showInformationMessage("本次更新：使用分享页详情链接（原链接需要登陆信息暂不支持）顺便求个Star");
+        vscode.window.showInformationMessage("本次更新：使用https请求接口（http 301）");
     }
 }
 
