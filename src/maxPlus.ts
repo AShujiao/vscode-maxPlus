@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as https from 'https';
+import { URLSearchParams } from 'url';
 
 export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 	//默认事件
@@ -13,7 +14,7 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 	//当前页数
 	private _page:number = 0;
 	//每页展示条数
-	private _limit:number = 40;
+	private _limit:number = 30;
 
 	constructor() {
 
@@ -62,7 +63,7 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 		let blackGameType:string = '';
 		switch(this._gameType){
 			case "ow":
-			blackGameType = 'Blizzard';
+			blackGameType = 'overwatchtwo';
 			break;
 			case "dota2":
 			blackGameType = 'dota2';
@@ -80,19 +81,58 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 			blackGameType = 'PUBG';
 			break;
 		}
-		//let url: string = "https://api.xiaoheihe.cn/maxnews/app/list?tag="+blackGameType+"&imei=354702090309389&os_type=Android&os_version=9&version=1.2.66&offset=" +(this._page * this._limit)+"&limit="+this._limit+"&heybox_id=16580999&hkey=0fb7ab4b8dc0a76221cf820021877726&_time=" + Math.round(new Date().getTime()/1000).toString();
-		let path: string = "/maxnews/app/list?tag="+blackGameType+"&imei=354702090309389&os_type=Android&os_version=9&version=1.2.66&offset=" +(this._page * this._limit)+"&limit="+this._limit+"&heybox_id=16580999&hkey=0fb7ab4b8dc0a76221cf820021877726&_time=" + Math.round(new Date().getTime()/1000).toString();
+		
+		// 构建查询参数
+		const params = new URLSearchParams({
+			heybox_id: '92539373',
+			time_zone: 'Asia/Shanghai',
+			hkey: 'fea42e64',
+			x_app: 'heybox',
+			os_version: '26.1',
+			netmode: 'wifi',
+			device_id: '3792C67E-3786-4074-8BE7-2D9D79D64ED6',
+			nonce: 'nqq9nYWvIhj45bIJcPbugnBWwwchXCWJ',
+			x_client_type: 'mobile',
+			device_info: 'iPhone12',
+			lang: 'zh-cn',
+			x_os_type: 'iOS',
+			os_type: 'iOS',
+			_time: '1766142160',
+			_rnd: '14:6DD9BCF7',
+			dw: '390',
+			version: '1.3.375',
+			lastval: '',
+			tag: blackGameType,
+			list_ver: '2',
+			limit: '20',
+			offset: '0',
+			is_first: '1'
+		});
+
+		let path: string = "/bbs/app/feeds/news?" + params.toString();
+		
 		let option = {
+			protocol: 'https:',
 			host: "api.xiaoheihe.cn",
 			method: 'GET',
 			path: path,
+			timeout: 5000,
+			rejectUnauthorized: false,
 			headers: {
-				'Content-Type': 'application/json',
-				'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'
+				'Host': 'api.xiaoheihe.cn',
+				'Accept-Encoding': 'br;q=1.0, gzip;q=0.9, deflate;q=0.8',
+				'Accept': '*/*',
+				'Connection': 'keep-alive',
+				'baggage': 'sentry-environment=production,sentry-public_key=cd2481795348588c5ea1fe1284a27c0b,sentry-release=com.max.xiaoheihe%401.3.375%2B1653,sentry-sample_rand=0.792476,sentry-sample_rate=0.010000,sentry-sampled=false,sentry-trace_id=c3ebfe68d73b4fb4ae505a8fa633cec4,sentry-transaction=HB5FeedsListViewController',
+				'Cookie': 'pkey=MTc2NjEzNDI1OS40OV85MjUzOTM3M2tvaGd2a3doZG5heHZ2Z2I__;hkey=77f79247dfe4061b8ce62f996392ada4;x_xhh_tokenid=BlCY+sctifBQjWac4BhFLbDSaLvK9d8iHN34lyDhomMP/k6R/bsQSpNQdw2G7UsiQLNzBN8JGGpmOhpeA6F8QVQ==',
+				'User-Agent': 'xiaoheihe/1.3.375 (com.max.xiaoheihe; build:1653; iOS 26.1.0) Alamofire/5.9.0',
+				'Accept-Language': 'zh-Hans-US;q=1.0',
+				'Referer': 'http://api.maxjia.com/',
+				'sentry-trace': 'c3ebfe68d73b4fb4ae505a8fa633cec4-796b945a35144811-0'
 			}
 		}
 		return new Promise(function (resolve, reject) {
-			https.get(option, (res) => {
+			const req = https.get(option, (res) => {
 				res.setEncoding('utf8');
 				let rawData = '';
 				res.on('data', function (chunk) {
@@ -101,6 +141,12 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 				res.on('end', () => {
 					resolve(rawData);
 				});
+			});
+			req.on('error', (e) => {
+				reject(e);
+			});
+			req.on('timeout', () => {
+				reject(new Error('请求超时'));
 			});
 		});
 	}
@@ -111,7 +157,7 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 		if (data == "") return [];
 		const maxJson = JSON.parse(data);
 		//检测数据
-		if ((typeof maxJson != 'object' && !maxJson) || (maxJson.result.length <= 0)) {
+		if ((typeof maxJson != 'object' && !maxJson) || (!maxJson.result) || (maxJson.result.links && maxJson.result.links.length <= 0)) {
 			vscode.window.showInformationMessage('好像没有数据了！(*^▽^*)');
 			return [];
 		}
@@ -145,11 +191,15 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 			});
 		}
 		//循环添加数据
-		let list = Object.keys(maxJson.result).map(dep => toDep(
-			maxJson.result[dep]['title'], 
-			maxJson.result[dep]['share_url'],
-			maxJson.result[dep]['linkid']
-		));
+		let list: Dependency[] = [];
+		if (maxJson.result.links) {
+			list = maxJson.result.links
+				.filter((item: any) => item.link_id && item.title)
+				.map((item: any) => {
+					const url = `https://api.xiaoheihe.cn/v3/bbs/app/api/web/share?link_id=${item.link_id}`;
+					return toDep(item.title, url, item.link_id);
+				});
+		}
 		return list;
 	}
 
@@ -164,10 +214,7 @@ class Dependency extends vscode.TreeItem {
 		public readonly command?: vscode.Command
 	) {
 		super(label, collapsibleState);
-	}
-
-	get tooltip(): string {
-		return this.label;
+		this.tooltip = this.label;
 	}
 
 	iconPath = {
