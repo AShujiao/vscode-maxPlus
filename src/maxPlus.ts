@@ -1,6 +1,8 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as https from 'https';
+import { URLSearchParams } from 'url';
+import { computeHkey, generateNonce } from './xiaoheihe-sign';
 
 export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 	//默认事件
@@ -13,7 +15,7 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 	//当前页数
 	private _page:number = 0;
 	//每页展示条数
-	private _limit:number = 40;
+	private _limit:number = 30;
 
 	constructor() {
 
@@ -62,16 +64,16 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 		let blackGameType:string = '';
 		switch(this._gameType){
 			case "ow":
-			blackGameType = 'Blizzard';
+			blackGameType = 'overwatchtwo';
 			break;
-			case "dota2":
-			blackGameType = 'dota2';
+			case "sjz": // 三角洲
+			blackGameType = 'topic_611472';
 			break;
 			case "csgo":
 			blackGameType = 'csgo';
 			break;
-			case "hs":
-			blackGameType = 'hs';
+			case "apex": // APEX
+			blackGameType = 'APEX';
 			break;
 			case "lol":
 			blackGameType = 'lol';
@@ -80,19 +82,55 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 			blackGameType = 'PUBG';
 			break;
 		}
-		//let url: string = "https://api.xiaoheihe.cn/maxnews/app/list?tag="+blackGameType+"&imei=354702090309389&os_type=Android&os_version=9&version=1.2.66&offset=" +(this._page * this._limit)+"&limit="+this._limit+"&heybox_id=16580999&hkey=0fb7ab4b8dc0a76221cf820021877726&_time=" + Math.round(new Date().getTime()/1000).toString();
-		let path: string = "/maxnews/app/list?tag="+blackGameType+"&imei=354702090309389&os_type=Android&os_version=9&version=1.2.66&offset=" +(this._page * this._limit)+"&limit="+this._limit+"&heybox_id=16580999&hkey=0fb7ab4b8dc0a76221cf820021877726&_time=" + Math.round(new Date().getTime()/1000).toString();
+
+		// 生成签名参数
+		const ts = Math.floor(Date.now() / 1000);
+		const apiPath = '/bbs/app/feeds/news';
+		const signPath = apiPath.endsWith('/') ? apiPath : apiPath + '/';
+		const hkey = computeHkey(signPath, ts, '054ec0ee9649217b-1');
+		const nonce = generateNonce();
+
+		// 构建查询参数
+		const params = new URLSearchParams({
+			heybox_id: '-1',
+			imei: '054ec0ee9649217b',
+			device_info: 'Android',
+			nonce: nonce,
+			hkey: hkey,
+			os_type: 'Android',
+			x_os_type: 'Android',
+			x_client_type: 'mobile',
+			os_version: '9',
+			version: '1.3.347',
+			build: '916',
+			_time: ts.toString(),
+			dw: '411',
+			channel: 'heybox_google',
+			x_app: 'heybox',
+			time_zone: 'Asia/Shanghai',
+			netmode: 'wifi',
+			offset: (this._page * this._limit).toString(),
+			limit: this._limit.toString(),
+			tag: blackGameType,
+			rec_mark: 'tags',
+			is_first: this._page === 0 ? '1' : '0'
+		});
+
+		let requestPath: string = apiPath + "?" + params.toString();
+
 		let option = {
+			protocol: 'https:',
 			host: "api.xiaoheihe.cn",
 			method: 'GET',
-			path: path,
+			path: requestPath,
+			timeout: 10000,
+			rejectUnauthorized: false,
 			headers: {
-				'Content-Type': 'application/json',
-				'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'
+				'User-Agent': 'okhttp/4.9.1'
 			}
 		}
 		return new Promise(function (resolve, reject) {
-			https.get(option, (res) => {
+			const req = https.get(option, (res) => {
 				res.setEncoding('utf8');
 				let rawData = '';
 				res.on('data', function (chunk) {
@@ -101,6 +139,12 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 				res.on('end', () => {
 					resolve(rawData);
 				});
+			});
+			req.on('error', (e) => {
+				reject(e);
+			});
+			req.on('timeout', () => {
+				reject(new Error('请求超时'));
 			});
 		});
 	}
@@ -111,7 +155,7 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 		if (data == "") return [];
 		const maxJson = JSON.parse(data);
 		//检测数据
-		if ((typeof maxJson != 'object' && !maxJson) || (maxJson.result.length <= 0)) {
+		if ((typeof maxJson != 'object' && !maxJson) || (!maxJson.result) || (maxJson.result.links && maxJson.result.links.length <= 0)) {
 			vscode.window.showInformationMessage('好像没有数据了！(*^▽^*)');
 			return [];
 		}
@@ -120,14 +164,14 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 			case "ow":
 			this._iconName = "Overwatch";
 			break;
-			case "dota2":
-			this._iconName = "dota";
+			case "sjz":
+			this._iconName = "sjz";
 			break;
 			case "csgo":
 			this._iconName="csgo";
 			break;
-			case "hs":
-			this._iconName="Hearthstone";
+			case "apex":
+			this._iconName="apex";
 			break;
 			case "lol":
 			this._iconName="lol";
@@ -145,11 +189,15 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 			});
 		}
 		//循环添加数据
-		let list = Object.keys(maxJson.result).map(dep => toDep(
-			maxJson.result[dep]['title'], 
-			maxJson.result[dep]['share_url'],
-			maxJson.result[dep]['linkid']
-		));
+		let list: Dependency[] = [];
+		if (maxJson.result.links) {
+			list = maxJson.result.links
+				.filter((item: any) => item.linkid && item.title)
+				.map((item: any) => {
+					const url = `https://api.xiaoheihe.cn/v3/bbs/app/api/web/share?link_id=${item.linkid}`;
+					return toDep(item.title, url, item.linkid);
+				});
+		}
 		return list;
 	}
 
@@ -164,10 +212,7 @@ class Dependency extends vscode.TreeItem {
 		public readonly command?: vscode.Command
 	) {
 		super(label, collapsibleState);
-	}
-
-	get tooltip(): string {
-		return this.label;
+		this.tooltip = this.label;
 	}
 
 	iconPath = {
