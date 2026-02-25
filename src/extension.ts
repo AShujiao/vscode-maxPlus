@@ -14,9 +14,9 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.registerTreeDataProvider('maxPlus',maxPlusProvider);
     vscode.commands.registerCommand('maxPlus.refreshEntry',() => maxPlusProvider.refresh());
     vscode.commands.registerCommand('maxPlus.switch-ow',() => maxPlusProvider.refresh("ow"));
-    vscode.commands.registerCommand('maxPlus.switch-dota',() => maxPlusProvider.refresh("dota2"));
+    vscode.commands.registerCommand('maxPlus.switch-sjz',() => maxPlusProvider.refresh("sjz"));
     vscode.commands.registerCommand('maxPlus.switch-csgo',() => maxPlusProvider.refresh("csgo"));
-    vscode.commands.registerCommand('maxPlus.switch-hs',() => maxPlusProvider.refresh("hs"));
+    vscode.commands.registerCommand('maxPlus.switch-apex',() => maxPlusProvider.refresh("apex"));
     vscode.commands.registerCommand('maxPlus.switch-lol',() => maxPlusProvider.refresh("lol"));
     vscode.commands.registerCommand('maxPlus.switch-pubg',() => maxPlusProvider.refresh("pubg"));
     vscode.commands.registerCommand('maxPlus.prePage',() => maxPlusProvider.refresh(undefined,"pre"));
@@ -31,7 +31,7 @@ export function activate(context: vscode.ExtensionContext) {
     let version:string           = ex.packageJSON['version'];
     if(openNum != version && ex.packageJSON['one_title']){
         context.globalState.update('ext_version',version);
-        vscode.window.showInformationMessage("本次更新：使用https请求接口（http 301）");
+        vscode.window.showInformationMessage("🎮 小黑盒 v1.5.0：已恢复正常使用！新增三角洲行动、APEX英雄资讯");
     }
 }
 

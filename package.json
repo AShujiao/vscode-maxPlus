@@ -2,7 +2,7 @@
     "name": "max",
     "displayName": "小黑盒",
     "description": "小黑盒(max+) 游戏资讯",
-    "version": "1.4.2",
+    "version": "1.5.0",
     "publisher": "manasxx",
     "engines": {
         "vscode": "^1.27.0"
@@ -17,9 +17,11 @@
         "csgo",
         "game",
         "news",
-        "dota",
+        "三角洲",
+        "apex",
         "lol",
         "pubg",
+        "小黑盒",
         "max+"
     ],
     "activationEvents": [
@@ -54,11 +56,11 @@
                 }
             },
             {
-                "command": "maxPlus.switch-dota",
-                "title": "DOTA2",
+                "command": "maxPlus.switch-sjz",
+                "title": "三角洲",
                 "icon": {
-                    "light": "resources/light/dota.svg",
-                    "dark": "resources/dark/dota.svg"
+                    "light": "resources/light/sjz.svg",
+                    "dark": "resources/dark/sjz.svg"
                 }
             },
             {
@@ -70,11 +72,11 @@
                 }
             },
             {
-                "command": "maxPlus.switch-hs",
-                "title": "炉石传说",
+                "command": "maxPlus.switch-apex",
+                "title": "APEX",
                 "icon": {
-                    "light": "resources/light/Hearthstone.svg",
-                    "dark": "resources/dark/Hearthstone.svg"
+                    "light": "resources/light/apex.svg",
+                    "dark": "resources/dark/apex.svg"
                 }
             },
             {
@@ -131,7 +133,7 @@
                     "group": "navigation@0"
                 },
                 {
-                    "command": "maxPlus.switch-dota",
+                    "command": "maxPlus.switch-sjz",
                     "when": "view == maxPlus",
                     "group": "navigation@1"
                 },
@@ -141,7 +143,7 @@
                     "group": "navigation@2"
                 },
                 {
-                    "command": "maxPlus.switch-hs",
+                    "command": "maxPlus.switch-apex",
                     "when": "view == maxPlus",
                     "group": "navigation@3"
                 },
@@ -185,8 +187,8 @@
                     "enum": [
                         "ow",
                         "csgo",
-                        "dota2",
-                        "hs",
+                        "sanjiaozhou",
+                        "APEX",
                         "lol",
                         "pubg"
                     ],
@@ -212,9 +214,9 @@
         "test": "npm run compile && node ./node_modules/vscode/bin/test"
     },
     "devDependencies": {
-        "@types/mocha": "^2.2.42",
-        "@types/node": "^7.10.2",
-        "typescript": "^2.6.1",
+        "@types/mocha": "^10.0.10",
+        "@types/node": "^25.3.0",
+        "typescript": "^5.9.3",
         "vscode": "^1.1.37"
     }
 }

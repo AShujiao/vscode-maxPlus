@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as https from 'https';
 import { URLSearchParams } from 'url';
+import { computeHkey, generateNonce } from './xiaoheihe-sign';
 
 export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 	//默认事件
@@ -65,14 +66,14 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 			case "ow":
 			blackGameType = 'overwatchtwo';
 			break;
-			case "dota2":
-			blackGameType = 'dota2';
+			case "sjz": // 三角洲
+			blackGameType = 'topic_611472';
 			break;
 			case "csgo":
 			blackGameType = 'csgo';
 			break;
-			case "hs":
-			blackGameType = 'hs';
+			case "apex": // APEX
+			blackGameType = 'APEX';
 			break;
 			case "lol":
 			blackGameType = 'lol';
@@ -81,54 +82,51 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 			blackGameType = 'PUBG';
 			break;
 		}
-		
+
+		// 生成签名参数
+		const ts = Math.floor(Date.now() / 1000);
+		const apiPath = '/bbs/app/feeds/news';
+		const signPath = apiPath.endsWith('/') ? apiPath : apiPath + '/';
+		const hkey = computeHkey(signPath, ts, '054ec0ee9649217b-1');
+		const nonce = generateNonce();
+
 		// 构建查询参数
 		const params = new URLSearchParams({
-			heybox_id: '92539373',
-			time_zone: 'Asia/Shanghai',
-			hkey: 'fea42e64',
-			x_app: 'heybox',
-			os_version: '26.1',
-			netmode: 'wifi',
-			device_id: '3792C67E-3786-4074-8BE7-2D9D79D64ED6',
-			nonce: 'nqq9nYWvIhj45bIJcPbugnBWwwchXCWJ',
+			heybox_id: '-1',
+			imei: '054ec0ee9649217b',
+			device_info: 'Android',
+			nonce: nonce,
+			hkey: hkey,
+			os_type: 'Android',
+			x_os_type: 'Android',
 			x_client_type: 'mobile',
-			device_info: 'iPhone12',
-			lang: 'zh-cn',
-			x_os_type: 'iOS',
-			os_type: 'iOS',
-			_time: '1766142160',
-			_rnd: '14:6DD9BCF7',
-			dw: '390',
-			version: '1.3.375',
-			lastval: '',
+			os_version: '9',
+			version: '1.3.347',
+			build: '916',
+			_time: ts.toString(),
+			dw: '411',
+			channel: 'heybox_google',
+			x_app: 'heybox',
+			time_zone: 'Asia/Shanghai',
+			netmode: 'wifi',
+			offset: (this._page * this._limit).toString(),
+			limit: this._limit.toString(),
 			tag: blackGameType,
-			list_ver: '2',
-			limit: '20',
-			offset: '0',
-			is_first: '1'
+			rec_mark: 'tags',
+			is_first: this._page === 0 ? '1' : '0'
 		});
 
-		let path: string = "/bbs/app/feeds/news?" + params.toString();
-		
+		let requestPath: string = apiPath + "?" + params.toString();
+
 		let option = {
 			protocol: 'https:',
 			host: "api.xiaoheihe.cn",
 			method: 'GET',
-			path: path,
-			timeout: 5000,
+			path: requestPath,
+			timeout: 10000,
 			rejectUnauthorized: false,
 			headers: {
-				'Host': 'api.xiaoheihe.cn',
-				'Accept-Encoding': 'br;q=1.0, gzip;q=0.9, deflate;q=0.8',
-				'Accept': '*/*',
-				'Connection': 'keep-alive',
-				'baggage': 'sentry-environment=production,sentry-public_key=cd2481795348588c5ea1fe1284a27c0b,sentry-release=com.max.xiaoheihe%401.3.375%2B1653,sentry-sample_rand=0.792476,sentry-sample_rate=0.010000,sentry-sampled=false,sentry-trace_id=c3ebfe68d73b4fb4ae505a8fa633cec4,sentry-transaction=HB5FeedsListViewController',
-				'Cookie': 'pkey=MTc2NjEzNDI1OS40OV85MjUzOTM3M2tvaGd2a3doZG5heHZ2Z2I__;hkey=77f79247dfe4061b8ce62f996392ada4;x_xhh_tokenid=BlCY+sctifBQjWac4BhFLbDSaLvK9d8iHN34lyDhomMP/k6R/bsQSpNQdw2G7UsiQLNzBN8JGGpmOhpeA6F8QVQ==',
-				'User-Agent': 'xiaoheihe/1.3.375 (com.max.xiaoheihe; build:1653; iOS 26.1.0) Alamofire/5.9.0',
-				'Accept-Language': 'zh-Hans-US;q=1.0',
-				'Referer': 'http://api.maxjia.com/',
-				'sentry-trace': 'c3ebfe68d73b4fb4ae505a8fa633cec4-796b945a35144811-0'
+				'User-Agent': 'okhttp/4.9.1'
 			}
 		}
 		return new Promise(function (resolve, reject) {
@@ -166,14 +164,14 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 			case "ow":
 			this._iconName = "Overwatch";
 			break;
-			case "dota2":
-			this._iconName = "dota";
+			case "sjz":
+			this._iconName = "sjz";
 			break;
 			case "csgo":
 			this._iconName="csgo";
 			break;
-			case "hs":
-			this._iconName="Hearthstone";
+			case "apex":
+			this._iconName="apex";
 			break;
 			case "lol":
 			this._iconName="lol";
@@ -194,10 +192,10 @@ export class maxPlus implements vscode.TreeDataProvider<Dependency>{
 		let list: Dependency[] = [];
 		if (maxJson.result.links) {
 			list = maxJson.result.links
-				.filter((item: any) => item.link_id && item.title)
+				.filter((item: any) => item.linkid && item.title)
 				.map((item: any) => {
-					const url = `https://api.xiaoheihe.cn/v3/bbs/app/api/web/share?link_id=${item.link_id}`;
-					return toDep(item.title, url, item.link_id);
+					const url = `https://api.xiaoheihe.cn/v3/bbs/app/api/web/share?link_id=${item.linkid}`;
+					return toDep(item.title, url, item.linkid);
 				});
 		}
 		return list;

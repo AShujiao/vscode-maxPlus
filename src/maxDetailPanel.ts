@@ -124,7 +124,7 @@ export class maxDetailPanel{
             </head>
             <body>
             
-                <iframe width="480" height="800" style="width:480px;height:800px;" src="${this._url}" ></iframe>
+                <iframe width="480" height="800" style="width:450px;height:800px;" src="${this._url}" ></iframe>
             </body>
             </html>`;
     }
